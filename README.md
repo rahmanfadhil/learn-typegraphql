@@ -2,7 +2,7 @@
 
 How To Build a GraphQL API with TypeGraphQL and TypeORM.
 
-*How to use:**
+**How to use:**
 
 ```
 $ npm install

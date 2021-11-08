@@ -1,0 +1,64 @@
+version: "3.6"
+
+services:
+  graphql-gateway:
+    image: node
+    working_dir: /usr/webapp
+    depends_on:
+      postgres:
+        condition: service_healthy
+      pg-admin:
+        condition: service_started
+    volumes:
+      - "./src:/usr/webapp/src:ro"
+      - "./package.json:/usr/webapp/package.json:ro"
+      # - "./ormconfig.json:/usr/webapp/ormconfig.json:ro"
+      - "./ormconfig.ts:/usr/webapp/ormconfig.ts:ro"
+      - "./tsconfig.json:/usr/webapp/tsconfig.json:ro"
+      - "./config:/usr/webapp/config:ro"
+      - "./package-lock.json:/usr/webapp/package-lock.json"
+      - "./entrypoint.sh:/usr/webapp/entrypoint.sh"
+    environment:
+      DATABASE_TYPE: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgrespassword
+      DATABASE_NAME: postgres
+    ports:
+      - "4000:4000"
+    entrypoint: "/bin/sh entrypoint.sh npm start"
+
+  # Postgres
+  postgres:
+    image: postgres
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    volumes:
+      - "./docker/postgres/init:/docker-entrypoint-initdb.d:ro"
+    ports:
+      - "4153:5432"
+
+  # Postgres web GUI
+  pg-admin:
+    image: dpage/pgadmin4:5.0
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 4100:80
+    volumes:
+      - "pgadmin-data:/var/lib/pgadmin"
+
+volumes:
+  db_data:
+  pgadmin-data:

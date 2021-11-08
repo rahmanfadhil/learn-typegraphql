@@ -9,7 +9,7 @@
   "author": "Rahman Fadhil <rhmnfadhil@gmail.com> (https://rahmanfadhil.com/)",
   "license": "MIT",
   "dependencies": {
-    "apollo-server": "^2.9.16",
+    "apollo-server": "^2.25.3",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^4.1.1",
     "type-graphql": "^0.17.6",

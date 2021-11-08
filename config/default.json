@@ -1,0 +1,12 @@
+{
+  "app": {
+    "host": "0.0.0.0",
+    "port": 4000
+  },
+  "database": {
+    "type": "sqlite",
+    "database": "./db.sqlite3",
+    "entities": ["./src/models/*.ts"],
+    "synchronize": true
+  }
+}

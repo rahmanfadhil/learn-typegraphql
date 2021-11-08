@@ -1,9 +1,9 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
-import { Book } from "../models/Book";
-import { CreateBookInput } from "../inputs/CreateBookInput";
-import { UpdateBookInput } from "../inputs/UpdateBookInput";
+import { Book } from "../models/book";
+import { CreateBookInput } from "../inputs/create-book.input";
+import { UpdateBookInput } from "../inputs/update-book.input";
 
-@Resolver()
+@Resolver(Book)
 export class BookResolver {
   @Query(() => [Book])
   books() {
